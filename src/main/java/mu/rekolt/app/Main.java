@@ -1,7 +1,19 @@
 package mu.rekolt.app;
 
+import java.util.Scanner;
+
+import mu.rekolt.service.GradingService;
+
+import mu.rekolt.util.InputValidator;
+
 public class Main {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int score = InputValidator.readQualityScore(scanner);
+
+        String grade = GradingService.gradeFor(score);
+        System.out.println("Grade:" + grade);
+
         // Step 1: inputs
         double mass = 236.0;
         int qualityScore = 91;
