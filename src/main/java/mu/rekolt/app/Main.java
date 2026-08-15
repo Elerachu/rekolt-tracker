@@ -11,6 +11,9 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int score = InputValidator.readQualityScore(scanner);
 
+        String memberName = InputValidator.readMemberName(scanner);
+        System.out.println("Member name: " + memberName);
+
         String grade = GradingService.gradeFor(score);
         System.out.println("Grade:" + grade);
 
@@ -48,4 +51,5 @@ public class Main {
         System.out.printf("Transport levy %.0f x 2.00 - %,.2f%n", mass, transportLevy);
         System.out.printf("NET PAYABLE = %,.2f MUR%n", netPayable);
     }
+
 }

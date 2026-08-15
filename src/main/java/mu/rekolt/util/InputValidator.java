@@ -19,4 +19,15 @@ public class InputValidator {
             }
         }
     }
+    public static String readMemberName(Scanner scanner){
+        while (true) {
+            System.out.print("Member name: ");
+            String line = scanner.nextLine();
+                if (!line.trim().isEmpty()) {
+                    return line;
+                } else  {
+                    System.out.println("Member name cannot be empty. Please try again.");
+                }
+        }
+    }
 }
