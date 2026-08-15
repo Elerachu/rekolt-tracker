@@ -37,5 +37,9 @@ public class PaymentService {
 
     }
 
+    public static double processDelivery(String memberId, String memberName, String produceCode, double mass, int qualityScore, int week) {
+        String[] row = {memberId, memberName, produceCode, String.valueOf(mass), String.valueOf(qualityScore), String.valueOf(week)};
+        return processDelivery(row);
+    }
 
 }
