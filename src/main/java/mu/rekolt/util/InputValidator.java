@@ -48,4 +48,23 @@ public class InputValidator {
             }
         }
     }
+
+    public static int readWeek(Scanner scanner) {
+        while (true) {
+            System.out.print("Week (1-20): ");
+            String line = scanner.nextLine();
+            try {
+                int week = Integer.parseInt(line);
+                if (week >= 1 && week <= 20) {
+                    return week;
+                } else {
+                    System.out.println("Week must be between 1 and 20. Please try again.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Week must be a whole number. Please try again.");
+            }
+        }
+    }
 }
+
+

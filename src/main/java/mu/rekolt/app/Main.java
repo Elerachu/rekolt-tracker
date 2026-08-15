@@ -20,6 +20,9 @@ public class Main {
         String grade = GradingService.gradeFor(score);
         System.out.println("Grade:" + grade);
 
+        int week = InputValidator.readWeek(scanner);
+        System.out.println("Week: " + week);
+
         // Step 1: inputs
         double basePrice = 90;
 
