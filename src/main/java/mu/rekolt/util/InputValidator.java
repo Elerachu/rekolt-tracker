@@ -19,6 +19,7 @@ public class InputValidator {
             }
         }
     }
+
     public static String readMemberName(Scanner scanner){
         while (true) {
             System.out.print("Member name: ");
@@ -28,6 +29,23 @@ public class InputValidator {
                 } else  {
                     System.out.println("Member name cannot be empty. Please try again.");
                 }
+        }
+    }
+
+    public static double readMass(Scanner scanner) {
+        while (true) {
+            System.out.print("Mass in kg: ");
+            String line = scanner.nextLine();
+            try {
+                double mass = Double.parseDouble(line);
+                if (mass > 0 && mass <= 5000) {
+                    return mass;
+                } else {
+                    System.out.println("Mass must be above 0 and not more than 5000 kg. Please try again.");
+                }
+            } catch (NumberFormatException e){
+                System.out.println("Mass must be a number. Please try again.");
+            }
         }
     }
 }

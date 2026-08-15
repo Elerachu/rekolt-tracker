@@ -14,19 +14,20 @@ public class Main {
         String memberName = InputValidator.readMemberName(scanner);
         System.out.println("Member name: " + memberName);
 
+        double mass = InputValidator.readMass(scanner);
+        System.out.println("Mass: " + mass);
+
         String grade = GradingService.gradeFor(score);
         System.out.println("Grade:" + grade);
 
         // Step 1: inputs
-        double mass = 236.0;
-        int qualityScore = 91;
         double basePrice = 90;
 
         // Step 2: base value
         double baseValue = mass * basePrice;
 
         // Step 3: grade multiplier
-        double gradeMultiplier = 1.15;
+        double gradeMultiplier = GradingService.multiplierFor(grade);
         double gradedValue = baseValue * gradeMultiplier;
 
         // Step 4: category multiplier
@@ -43,7 +44,7 @@ public class Main {
         double netPayable = categoryValue - commission - transportLevy;
 
         // Output
-        System.out.println("Delivery D-1001 recorded. Grade A");
+        System.out.println("Delivery D-1001 recorded. Grade; " + grade);
         System.out.printf("Base value %.0f x %.2f = %,.2f%n", mass, basePrice, baseValue);
         System.out.printf("Grade A x %.2f = %,.2f%n", gradeMultiplier, gradedValue);
         System.out.printf("Cereal x %.2f = %,.2f%n", categoryMultiplier, categoryValue);
