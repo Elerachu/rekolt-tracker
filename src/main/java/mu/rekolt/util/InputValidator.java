@@ -65,6 +65,7 @@ public class InputValidator {
             }
         }
     }
+
     public static String readProduceCode(Scanner scanner) {
         while (true) {
             System.out.print("Produce code (MZE/BNS/POT/TEA): ");
@@ -79,6 +80,18 @@ public class InputValidator {
                     return code;
                 default:
                     System.out.println("Produce code " + code + "is not valid. Please try again.");
+            }
+        }
+    }
+
+    public static String readMemberIdentifier(Scanner scanner) {
+        while (true) {
+            System.out.print("Member identifier: ");
+            String line = scanner.nextLine();
+            if (line.matches("^M-\\d{4}$")) {
+                return line;
+            } else {
+                System.out.println("Member identifier must be in the format M-0042. Please try again.");
             }
         }
     }

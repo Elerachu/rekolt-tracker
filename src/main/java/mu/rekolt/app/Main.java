@@ -26,6 +26,9 @@ public class Main {
         String produceCode = InputValidator.readProduceCode(scanner);
         System.out.println("Produce code: " + produceCode);
 
+        String memberId = InputValidator.readMemberIdentifier(scanner);
+        System.out.println("Member ID: " + memberId);
+
         // Step 1: inputs
         double basePrice = 90;
 
