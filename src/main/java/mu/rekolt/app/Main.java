@@ -35,18 +35,28 @@ public class Main {
         double categoryValue = gradedValue * categoryMultiplier;
 
         // Step 5: commission
-        double commission = categoryValue * 0.05;
+        double commission;
 
         // Step 6: transport levy
-        double transportLevy = mass * 2;
+        double transportLevy;
 
         // Net payable
-        double netPayable = categoryValue - commission - transportLevy;
+        double netPayable;
+
+        if (grade.equals("REJECT")) {
+            commission = 0.0;
+            transportLevy = 0.0;
+            netPayable = 0.0;
+        } else {
+            commission = categoryValue * 0.05;
+            transportLevy = mass * 2;
+            netPayable = categoryValue - commission - transportLevy;
+        }
 
         // Output
         System.out.println("Delivery D-1001 recorded. Grade; " + grade);
         System.out.printf("Base value %.0f x %.2f = %,.2f%n", mass, basePrice, baseValue);
-        System.out.printf("Grade A x %.2f = %,.2f%n", gradeMultiplier, gradedValue);
+        System.out.printf("Grade %s x %.2f = %,.2f%n", grade, gradeMultiplier, gradedValue);
         System.out.printf("Cereal x %.2f = %,.2f%n", categoryMultiplier, categoryValue);
         System.out.printf("Commission 5%% - %,.2f%n", commission);
         System.out.printf("Transport levy %.0f x 2.00 - %,.2f%n", mass, transportLevy);
