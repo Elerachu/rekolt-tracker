@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 import mu.rekolt.service.PaymentService;
 
+import mu.rekolt.service.PriceService;
+
 import mu.rekolt.util.InputValidator;
 
 public class Main {
@@ -35,10 +37,30 @@ public class Main {
         String[] interactiveDelivery = {memberId, memberName, produceCode, String.valueOf(mass), String.valueOf(score), String.valueOf(week)};
         PaymentService.processDelivery(interactiveDelivery);
 
+        double[][] weeklyGrid = new double[21][4];
+
         double seasonTotal = 0;
         for (String[] delivery : deliveries) {
             seasonTotal += PaymentService.processDelivery(delivery);
+
+            int deliveryWeek = Integer.parseInt(delivery[5]);
+            String deliveryProduceCode = delivery[2];
+            double deliveryMass = Double.parseDouble(delivery[3]);
+            weeklyGrid[deliveryWeek][PriceService.columnFor(deliveryProduceCode)] += deliveryMass;
         }
         System.out.printf("Season total: %,.2f MUR%n", seasonTotal);
+
+        System.out.println("Weekly volume grid (kg)");
+        System.out.println("Week MZE BNS POT TEA Total");
+
+        for (int deliveryWeek = 1; week <= 20; week++) {
+            double rowTotal = 0;
+            System.out.printf("%d ", week);
+            for (int col = 0; col < 4; col++) {
+                System.out.printf("%.1f ", weeklyGrid[week][col]);
+                rowTotal += weeklyGrid[week][col];
+            }
+            System.out.printf("%.1f%n", rowTotal);
+        }
     }
 }

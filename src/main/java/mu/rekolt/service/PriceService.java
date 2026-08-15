@@ -20,4 +20,14 @@ public class PriceService {
             default -> throw new IllegalArgumentException("Unknown produce code " + produceCode);
         };
     }
+
+    public static int columnFor(String produceCode) {
+        return switch (produceCode) {
+            case "MZE" -> 0;
+            case "BNS" -> 1;
+            case "POT" -> 2;
+            case "TEA" -> 3;
+            default -> throw new IllegalArgumentException("Unknown produce code " + produceCode);
+        };
+    }
 }
