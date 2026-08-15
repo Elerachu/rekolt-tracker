@@ -65,6 +65,23 @@ public class InputValidator {
             }
         }
     }
+    public static String readProduceCode(Scanner scanner) {
+        while (true) {
+            System.out.print("Produce code (MZE/BNS/POT/TEA): ");
+            String line = scanner.nextLine();
+            String code = line.trim().toUpperCase();
+
+            switch (code) {
+                case "MZE":
+                case "BNS":
+                case "POT":
+                case "TEA":
+                    return code;
+                default:
+                    System.out.println("Produce code " + code + "is not valid. Please try again.");
+            }
+        }
+    }
 }
 
 

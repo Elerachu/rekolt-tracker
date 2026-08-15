@@ -23,6 +23,9 @@ public class Main {
         int week = InputValidator.readWeek(scanner);
         System.out.println("Week: " + week);
 
+        String produceCode = InputValidator.readProduceCode(scanner);
+        System.out.println("Produce code: " + produceCode);
+
         // Step 1: inputs
         double basePrice = 90;
 
