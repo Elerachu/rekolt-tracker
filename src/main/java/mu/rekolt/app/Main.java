@@ -1,39 +1,93 @@
 package mu.rekolt.app;
 
+import java.util.Scanner;
+
+import mu.rekolt.service.PaymentService;
+import mu.rekolt.service.PriceService;
+import mu.rekolt.util.InputValidator;
+
 public class Main {
     public static void main(String[] args) {
-        // Step 1: inputs
-        double mass = 236.0;
-        int qualityScore = 91;
-        double basePrice = 90;
+        Scanner scanner = new Scanner(System.in);
 
-        // Step 2: base value
-        double baseValue = mass * basePrice;
+        String[][] deliveries = {
+                {"M-0032", "Mia Gray", "BNS", "780", "95", "17"},
+                {"M-0082", "Tosin", "TEA", "1200", "89", "4"},
+                {"M-0048", "Ubong", "BNS", "780", "72", "6"},
+                {"M-0025", "Bantu", "MZE", "375", "22", "20"},
+                {"M-0016", "Dapson", "POT", "150", "12", "11"},
+                {"M-0054", "Wale", "BNS", "1500", "36", "9"},
+                {"M-0103", "Becca", "TEA", "238", "42", "1"},
+                {"M-0008", "Chiamaka", "POT", "4589", "61", "17"},
+                {"M-0061", "Minata", "MZE", "643", "95", "4"},
+                {"M-0041", "Lu Xie", "TEA", "38", "95", "20"},
+                {"M-0023", "Kang", "BNS", "12", "95", "15"},
+                {"M-0108", "Dongju", "MZE", "154", "95", "6"}
+        };
 
-        // Step 3: grade multiplier
-        double gradeMultiplier = 1.15;
-        double gradedValue = baseValue * gradeMultiplier;
+        double[][] weeklyGrid = new double[21][4];
+        double seasonTotal = 0;
 
-        // Step 4: category multiplier
-        double categoryMultiplier = 1.00;
-        double categoryValue = gradedValue * categoryMultiplier;
+        // Process the season's hardcoded deliveries once at startup
+        for (String[] delivery : deliveries) {
+            seasonTotal += PaymentService.processDelivery(delivery);
+            int deliveryWeek = Integer.parseInt(delivery[5]);
+            String deliveryProduceCode = delivery[2];
+            double deliveryMass = Double.parseDouble(delivery[3]);
+            weeklyGrid[deliveryWeek][PriceService.columnFor(deliveryProduceCode)] += deliveryMass;
+        }
 
-        // Step 5: commission
-        double commission = categoryValue * 0.05;
+        System.out.println("REKOLT PRODUCE TRACKER - season 2026");
 
-        // Step 6: transport levy
-        double transportLevy = mass * 2;
+        boolean running = true;
+        while (running) {
+            System.out.println();
+            System.out.println("1. Record a delivery      3. Generate the season report");
+            System.out.println("2. Season figures on screen   4. Exit");
+            System.out.print("Choose an option: ");
+            String choice = scanner.nextLine();
 
-        // Net payable
-        double netPayable = categoryValue - commission - transportLevy;
+            switch (choice) {
+                case "1":
+                    int score = InputValidator.readQualityScore(scanner);
+                    String memberName = InputValidator.readMemberName(scanner);
+                    double mass = InputValidator.readMass(scanner);
+                    int week = InputValidator.readWeek(scanner);
+                    String produceCode = InputValidator.readProduceCode(scanner);
+                    String memberId = InputValidator.readMemberIdentifier(scanner);
 
-        // Output
-        System.out.println("Delivery D-1001 recorded. Grade A");
-        System.out.printf("Base value %.0f x %.2f = %,.2f%n", mass, basePrice, baseValue);
-        System.out.printf("Grade A x %.2f = %,.2f%n", gradeMultiplier, gradedValue);
-        System.out.printf("Cereal x %.2f = %,.2f%n", categoryMultiplier, categoryValue);
-        System.out.printf("Commission 5%% - %,.2f%n", commission);
-        System.out.printf("Transport levy %.0f x 2.00 - %,.2f%n", mass, transportLevy);
-        System.out.printf("NET PAYABLE = %,.2f MUR%n", netPayable);
+                    double netPayable = PaymentService.processDelivery(memberId, memberName, produceCode, mass, score, week);
+                    seasonTotal += netPayable;
+                    weeklyGrid[week][PriceService.columnFor(produceCode)] += mass;
+                    break;
+
+                case "2":
+                    System.out.println("Weekly volume grid (kg)");
+                    System.out.println("Week MZE BNS POT TEA Total");
+                    for (int w = 1; w <= 20; w++) {
+                        double rowTotal = 0;
+                        System.out.printf("%d ", w);
+                        for (int col = 0; col < 4; col++) {
+                            System.out.printf("%.1f ", weeklyGrid[w][col]);
+                            rowTotal += weeklyGrid[w][col];
+                        }
+                        System.out.printf("%.1f%n", rowTotal);
+                    }
+                    System.out.printf("Season total: %,.2f MUR%n", seasonTotal);
+                    break;
+
+                case "3":
+                    System.out.println("Report generation will be implemented in Objective 6.");
+                    break;
+
+                case "4":
+                    System.out.println("Goodbye.");
+                    running = false;
+                    break;
+
+                default:
+                    System.out.println("Please choose 1, 2, 3, or 4.");
+            }
+        }
     }
 }
