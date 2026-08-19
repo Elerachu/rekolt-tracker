@@ -1,13 +1,13 @@
 package mu.rekolt.app;
 
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.HashMap;
 
 import mu.rekolt.service.PaymentService;
 import mu.rekolt.service.PriceService;
 import mu.rekolt.util.InputValidator;
-
-import java.util.ArrayList;
-import java.util.List;
 import mu.rekolt.model.Delivery;
 
 public class Main {
@@ -30,11 +30,16 @@ public class Main {
 
         double[][] weeklyGrid = new double[21][4];
         double seasonTotal = 0;
+        HashMap<String, Double> memberTotals = new HashMap<>();
 
         // Process the season's hardcoded deliveries once at startup
         for (Delivery delivery : deliveries) {
-            seasonTotal += PaymentService.processDelivery(delivery);
+            double netPayable = PaymentService.processDelivery(delivery);
+            seasonTotal += netPayable;
             weeklyGrid[delivery.getWeek()][PriceService.columnFor(delivery.getProduceCode())] += delivery.getMass();
+
+            double currentTotal = memberTotals.getOrDefault(delivery.getMemberId(), 0.0);
+            memberTotals.put(delivery.getMemberId(), currentTotal + netPayable);
         }
 
         System.out.println("REKOLT PRODUCE TRACKER - season 2026");
@@ -59,6 +64,9 @@ public class Main {
                     double netPayable = PaymentService.processDelivery(memberId, memberName, produceCode, mass, score, week);
                     seasonTotal += netPayable;
                     weeklyGrid[week][PriceService.columnFor(produceCode)] += mass;
+
+                    double currentTotal = memberTotals.getOrDefault(memberId, 0.0);
+                    memberTotals.put(memberId, currentTotal + netPayable);
                     break;
 
                 case "2":
