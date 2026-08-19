@@ -1,4 +1,5 @@
 package mu.rekolt.service;
+import mu.rekolt.model.Delivery;
 
 public class PaymentService {
     public static double processDelivery(String [] row) {
@@ -40,6 +41,10 @@ public class PaymentService {
     public static double processDelivery(String memberId, String memberName, String produceCode, double mass, int qualityScore, int week) {
         String[] row = {memberId, memberName, produceCode, String.valueOf(mass), String.valueOf(qualityScore), String.valueOf(week)};
         return processDelivery(row);
+    }
+
+    public static double processDelivery(Delivery delivery) {
+        return processDelivery(delivery.getMemberId(), delivery.getMemberName(), delivery.getProduceCode(), delivery.getMass(), delivery.getQualityScore(), delivery.getWeek());
     }
 
 }
