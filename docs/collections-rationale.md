@@ -34,3 +34,6 @@
 **Comparable** (implemented on `Delivery`, sorting by mass) defines the class's own natural/default order, used any time a plain `Collections.sort()` is called with no explicit rule.
 **Comparator** (built separately in `Main`, sorting by member name then mass) provides an alternate, swappable order without modifying `Delivery` itself — useful when a different view of the same data is needed without redefining what "natural order" means for the class.
 **Rejected alternative:** hardcoding a second sort field directly into `compareTo`. This was rejected because `Comparable` should express one unambiguous natural order per class; multiple independent sort views belong in separate `Comparator` objects instead, keeping `Delivery` itself simple and not tied to every possible sort a caller might want.
+
+## Note on version control for this objective
+Objective 3's commits were initially made directly on `main` rather than a dedicated feature branch, an oversight caught before merging. This was corrected by branching `feature/objective-3` from the same point and merging properly. From Objective 4 onward, each objective is developed on its own feature branch from the start.
