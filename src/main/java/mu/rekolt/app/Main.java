@@ -31,6 +31,8 @@ public class Main {
         double[][] weeklyGrid = new double[21][4];
         double seasonTotal = 0;
         HashMap<String, Double> memberTotals = new HashMap<>();
+        HashMap<String, List<Delivery>> deliveriesByMember = new HashMap<>();
+
 
         // Process the season's hardcoded deliveries once at startup
         for (Delivery delivery : deliveries) {
@@ -40,6 +42,11 @@ public class Main {
 
             double currentTotal = memberTotals.getOrDefault(delivery.getMemberId(), 0.0);
             memberTotals.put(delivery.getMemberId(), currentTotal + netPayable);
+
+            if (!deliveriesByMember.containsKey(delivery.getMemberId())) {
+                deliveriesByMember.put(delivery.getMemberId(), new ArrayList<Delivery>());
+            }
+            deliveriesByMember.get(delivery.getMemberId()).add(delivery);
         }
 
         System.out.println("REKOLT PRODUCE TRACKER - season 2026");
@@ -61,12 +68,18 @@ public class Main {
                     String produceCode = InputValidator.readProduceCode(scanner);
                     String memberId = InputValidator.readMemberIdentifier(scanner);
 
-                    double netPayable = PaymentService.processDelivery(memberId, memberName, produceCode, mass, score, week);
+                    Delivery newDelivery = new Delivery(memberId, memberName, produceCode, mass, score, week);
+                    double netPayable = PaymentService.processDelivery(newDelivery);
                     seasonTotal += netPayable;
                     weeklyGrid[week][PriceService.columnFor(produceCode)] += mass;
 
                     double currentTotal = memberTotals.getOrDefault(memberId, 0.0);
                     memberTotals.put(memberId, currentTotal + netPayable);
+
+                    if (!deliveriesByMember.containsKey(memberId)) {
+                        deliveriesByMember.put(memberId, new ArrayList<Delivery>());
+                    }
+                    deliveriesByMember.get(memberId).add(newDelivery);
                     break;
 
                 case "2":
