@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import mu.rekolt.service.PaymentService;
 import mu.rekolt.service.PriceService;
@@ -32,6 +33,7 @@ public class Main {
         double seasonTotal = 0;
         HashMap<String, Double> memberTotals = new HashMap<>();
         HashMap<String, List<Delivery>> deliveriesByMember = new HashMap<>();
+        HashSet<String> distinctMemberIds = new HashSet<>();
 
 
         // Process the season's hardcoded deliveries once at startup
@@ -47,6 +49,7 @@ public class Main {
                 deliveriesByMember.put(delivery.getMemberId(), new ArrayList<Delivery>());
             }
             deliveriesByMember.get(delivery.getMemberId()).add(delivery);
+            distinctMemberIds.add(delivery.getMemberId());
         }
 
         System.out.println("REKOLT PRODUCE TRACKER - season 2026");
@@ -80,6 +83,7 @@ public class Main {
                         deliveriesByMember.put(memberId, new ArrayList<Delivery>());
                     }
                     deliveriesByMember.get(memberId).add(newDelivery);
+                    distinctMemberIds.add(memberId);
                     break;
 
                 case "2":
