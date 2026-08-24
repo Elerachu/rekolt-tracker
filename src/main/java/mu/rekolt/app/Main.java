@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
+import mu.rekolt.service.GradingService;
 
 import mu.rekolt.service.PaymentService;
 import mu.rekolt.service.PriceService;
@@ -102,6 +104,30 @@ public class Main {
                     for (Delivery d : sortedByName) {
                         System.out.println(d.getMemberName() + " " + d.getMass() + "kg");
                     }
+
+                    Delivery found = PaymentService.searchByMemberId(deliveries, "M-0032");
+                    if (found != null) {
+                        System.out.println("Found: " + found.getMemberName());
+                    } else {
+                        System.out.println("Member not found.");
+                    }
+
+                    Delivery notFound = PaymentService.searchByMemberId(deliveries, "M-9999");
+                    if (notFound != null) {
+                        System.out.println("Found: " + notFound.getMemberName());
+                    } else {
+                        System.out.println("Member not found.");
+                    }
+
+                    Iterator<Delivery> iterator = deliveries.iterator();
+                    while (iterator.hasNext()) {
+                        Delivery d = iterator.next();
+                        String grade = GradingService.gradeFor(d.getQualityScore());
+                        if (grade.equals("REJECT")) {
+                            iterator.remove();
+                        }
+                    }
+                    System.out.println("REJECT deliveries removed.");
 
                     System.out.println("Weekly volume grid (kg)");
                     System.out.println("Week MZE BNS POT TEA Total");

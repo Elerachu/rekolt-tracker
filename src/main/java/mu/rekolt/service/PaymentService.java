@@ -1,5 +1,6 @@
 package mu.rekolt.service;
 import mu.rekolt.model.Delivery;
+import java.util.List;
 
 public class PaymentService {
     public static double processDelivery(String [] row) {
@@ -45,6 +46,15 @@ public class PaymentService {
 
     public static double processDelivery(Delivery delivery) {
         return processDelivery(delivery.getMemberId(), delivery.getMemberName(), delivery.getProduceCode(), delivery.getMass(), delivery.getQualityScore(), delivery.getWeek());
+    }
+
+    public static Delivery searchByMemberId(List<Delivery> deliveries, String memberId) {
+        for (Delivery delivery : deliveries) {
+            if (delivery.getMemberId().equals(memberId)) {
+                return delivery;
+            }
+        }
+        return null;
     }
 
 }
