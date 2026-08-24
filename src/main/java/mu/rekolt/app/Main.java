@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Collections;
+import java.util.Comparator;
 
 import mu.rekolt.service.PaymentService;
 import mu.rekolt.service.PriceService;
@@ -87,6 +89,20 @@ public class Main {
                     break;
 
                 case "2":
+                    List<Delivery> sortedByMass = new ArrayList<>(deliveries);
+                    Collections.sort(sortedByMass);
+                    System.out.println("Deliveries sorted by mass (Comparable):");
+                    for (Delivery d : sortedByMass) {
+                        System.out.println(d.getMemberId() + " " + d.getMass() + "kg");
+                    }
+
+                    List<Delivery> sortedByName = new ArrayList<>(deliveries);
+                    sortedByName.sort(Comparator.comparing(Delivery::getMemberName).thenComparing(Delivery::getMass));
+                    System.out.println("Deliveries sorted by member name, then mass (Comparator):");
+                    for (Delivery d : sortedByName) {
+                        System.out.println(d.getMemberName() + " " + d.getMass() + "kg");
+                    }
+
                     System.out.println("Weekly volume grid (kg)");
                     System.out.println("Week MZE BNS POT TEA Total");
                     for (int w = 1; w <= 20; w++) {

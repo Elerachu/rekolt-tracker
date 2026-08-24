@@ -1,6 +1,6 @@
 package mu.rekolt.model;
 
-public class Delivery {
+public class Delivery implements Comparable<Delivery> {
     private final String memberId;
     private final String memberName;
     private final String produceCode;
@@ -39,5 +39,10 @@ public class Delivery {
 
     public int getWeek() {
         return week;
+    }
+
+    @Override
+    public int compareTo(Delivery other) {
+        return Double.compare(this.mass, other.mass);
     }
 }
