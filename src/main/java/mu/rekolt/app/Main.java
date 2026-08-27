@@ -18,9 +18,6 @@ import mu.rekolt.model.Delivery;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("REKOLT PRODUCE TRACKER - season 2026");
-        System.out.println("Tracks produce deliveries from cooperative members and computes payments automatically.");
-        System.out.println("Each delivery records: member ID, member name, produce type, mass (kg), quality score, and week.");
 
         List<Delivery> deliveries = new ArrayList<>();
         deliveries.add(new Delivery("M-0032", "Mia Gray", "BNS", 780, 95, 17));
@@ -44,8 +41,6 @@ public class Main {
 
 
         // Process the season's hardcoded deliveries once at startup
-        System.out.println("\nLoading season deliveries...");
-        System.out.println("Member ID | Name | Produce | Grade | Net Payable");
         for (Delivery delivery : deliveries) {
             double netPayable = PaymentService.processDelivery(delivery);
             seasonTotal += netPayable;
@@ -61,14 +56,13 @@ public class Main {
             distinctMemberIds.add(delivery.getMemberId());
         }
 
+        System.out.println("REKOLT PRODUCE TRACKER - season 2026");
+
         boolean running = true;
         while (running) {
             System.out.println();
-            System.out.println("What would you like to do?");
-            System.out.println("1. Record a delivery");
-            System.out.println("2. Season figures on screen");
-            System.out.println("3. Generate the season report");
-            System.out.println("4. Exit");
+            System.out.println("1. Record a delivery      3. Generate the season report");
+            System.out.println("2. Season figures on screen   4. Exit");
             System.out.print("Choose an option: ");
             String choice = scanner.nextLine();
 
