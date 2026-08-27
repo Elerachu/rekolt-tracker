@@ -68,12 +68,12 @@ public class Main {
 
             switch (choice) {
                 case "1":
-                    int score = InputValidator.readQualityScore(scanner);
-                    String memberName = InputValidator.readMemberName(scanner);
-                    double mass = InputValidator.readMass(scanner);
-                    int week = InputValidator.readWeek(scanner);
-                    String produceCode = InputValidator.readProduceCode(scanner);
                     String memberId = InputValidator.readMemberIdentifier(scanner);
+                    String memberName = InputValidator.readMemberName(scanner);
+                    String produceCode = InputValidator.readProduceCode(scanner);
+                    double mass = InputValidator.readMass(scanner);
+                    int score = InputValidator.readQualityScore(scanner);
+                    int week = InputValidator.readWeek(scanner);
 
                     Delivery newDelivery = new Delivery(memberId, memberName, produceCode, mass, score, week);
                     double netPayable = PaymentService.processDelivery(newDelivery);
