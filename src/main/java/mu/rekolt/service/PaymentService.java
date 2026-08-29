@@ -20,14 +20,13 @@ public class PaymentService {
         String grade = GradingService.gradeFor(qualityScore);
         double basePrice = PriceService.basePriceFor(produceCode);
         double gradeMultiplier = GradingService.multiplierFor(grade);
-        double categoryMultiplier = PriceService.categoryMultiplierFor(produceCode);
 
         // Step 1: Calculate Base Value
         double baseValue = mass * basePrice;
         // Step 2: Apply Grade Multiplier
         double gradedValue = baseValue * gradeMultiplier;
-        // Step 3: Apply Category Multiplier
-        double categoryValue = gradedValue * categoryMultiplier;
+        // Step 3: Apply Category Multiplier polymorphically (Objective 5 requirement)
+        double categoryValue = PriceService.categoryMultiplierPolymorphic(produceCode, gradedValue);
 
         // Step 4 & 5: Calculate commission, levy, and net payable
         double commission;

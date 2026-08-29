@@ -1,5 +1,12 @@
 package mu.rekolt.service;
 
+import mu.rekolt.model.Produce;
+import mu.rekolt.model.CerealProduce;
+import mu.rekolt.model.PerishableProduce;
+import mu.rekolt.model.CashCropProduce;
+import java.util.List;
+import java.util.ArrayList;
+
 // This class handles the fixed rules for produce prices, category multipliers, and grid columns.
 public class PriceService {
 
@@ -34,5 +41,28 @@ public class PriceService {
             case "TEA" -> 3;
             default -> throw new IllegalArgumentException("Unknown produce code " + produceCode);
         };
+    }
+
+    // Catalog of real Produce objects, built once when the class loads.
+    private static final List<Produce> PRODUCE_CATALOG = buildCatalog();
+
+    private static List<Produce> buildCatalog() {
+        List<Produce> catalog = new ArrayList<>();
+        catalog.add(new CerealProduce("MZE", "Maize", 30));
+        catalog.add(new CerealProduce("BNS", "Beans", 90));
+        catalog.add(new PerishableProduce("POT", "Potatoes", 45));
+        catalog.add(new CashCropProduce("TEA", "Green tea leaf", 25));
+        return catalog;
+    }
+
+    // Polymorphic lookup: loops the catalog and calls the abstract method,
+    // letting each object's own subclass logic run — no instanceof, no casting.
+    public static double categoryMultiplierPolymorphic(String produceCode, double gradedValue) {
+        for (Produce p : PRODUCE_CATALOG) {
+            if (p.getCode().equals(produceCode)) {
+                return p.applyCategoryMultiplier(gradedValue);
+            }
+        }
+        throw new IllegalArgumentException("Unknown produce code " + produceCode);
     }
 }

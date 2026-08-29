@@ -19,6 +19,11 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+        // App title and summary, printed first so the user knows what they're looking at.
+        System.out.println("REKOLT PRODUCE TRACKER - season 2026");
+        System.out.println("Tracks produce deliveries from cooperative members and computes payments automatically.");
+        System.out.println("Each delivery records: member ID, member name, produce type, mass (kg), quality score, and week.");
+
         // LOGIC: We use an ArrayList because it preserves the order deliveries were added and is fast to loop through.
         List<Delivery> deliveries = new ArrayList<>();
 
@@ -50,6 +55,8 @@ public class Main {
         HashSet<String> distinctMemberIds = new HashSet<>();
 
         // Process the season's hardcoded deliveries once at startup
+        System.out.println("\nLoading season deliveries...");
+        System.out.println("Member ID | Name | Produce | Grade | Net Payable");
         for (Delivery delivery : deliveries) {
             double netPayable = PaymentService.processDelivery(delivery);
             seasonTotal += netPayable; // Add to season total
@@ -69,14 +76,15 @@ public class Main {
             distinctMemberIds.add(delivery.getMemberId());
         }
 
-        System.out.println("REKOLT PRODUCE TRACKER - season 2026");
-
         boolean running = true;
         // Main menu loop
         while (running) {
             System.out.println();
-            System.out.println("1. Record a delivery      3. Generate the season report");
-            System.out.println("2. Season figures on screen   4. Exit");
+            System.out.println("What would you like to do?");
+            System.out.println("1. Record a delivery");
+            System.out.println("2. Season figures on screen");
+            System.out.println("3. Generate the season report");
+            System.out.println("4. Exit");
             System.out.print("Choose an option: ");
             String choice = scanner.nextLine();
 
@@ -110,22 +118,23 @@ public class Main {
 
                 case "2":
                     // SORTING 1: Using Comparable (natural order by mass)
+                    System.out.println("\n== Deliveries sorted by mass (Comparable) ==");
                     List<Delivery> sortedByMass = new ArrayList<>(deliveries);
                     Collections.sort(sortedByMass); // Uses compareTo in Delivery.java
-                    System.out.println("Deliveries sorted by mass (Comparable):");
                     for (Delivery d : sortedByMass) {
                         System.out.println(d.getMemberId() + " " + d.getMass() + "kg");
                     }
 
                     // SORTING 2: Using Comparator (custom order: name, then mass)
+                    System.out.println("\n== Deliveries sorted by member name, then mass (Comparator) ==");
                     List<Delivery> sortedByName = new ArrayList<>(deliveries);
                     sortedByName.sort(Comparator.comparing(Delivery::getMemberName).thenComparing(Delivery::getMass));
-                    System.out.println("Deliveries sorted by member name, then mass (Comparator):");
                     for (Delivery d : sortedByName) {
                         System.out.println(d.getMemberName() + " " + d.getMass() + "kg");
                     }
 
                     // SEARCHING: Linear search for a member ID (found and not found cases)
+                    System.out.println("\n== Search results ==");
                     Delivery found = PaymentService.searchByMemberId(deliveries, "M-0032");
                     if (found != null) {
                         System.out.println("Found: " + found.getMemberName());
@@ -149,10 +158,10 @@ public class Main {
                             iterator.remove(); // Removes without throwing ConcurrentModificationException
                         }
                     }
-                    System.out.println("REJECT deliveries removed.");
+                    System.out.println("\nREJECT deliveries removed.");
 
                     // PRINT GRID: Looping through the 2D array to print the volume table
-                    System.out.println("Weekly volume grid (kg)");
+                    System.out.println("\n== Weekly Volume Grid (kg) ==");
                     System.out.println("Week MZE BNS POT TEA Total");
                     for (int w = 1; w <= 20; w++) {
                         double rowTotal = 0;
@@ -163,7 +172,7 @@ public class Main {
                         }
                         System.out.printf("%.1f%n", rowTotal);
                     }
-                    System.out.printf("Season total: %,.2f MUR%n", seasonTotal);
+                    System.out.printf("%nSeason total: %,.2f MUR%n", seasonTotal);
                     break;
 
                 case "3":
