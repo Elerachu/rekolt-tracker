@@ -9,6 +9,6 @@ public class CashCropProduce extends Produce {
     @Override
     public double applyCategoryMultiplier(double gradedValue) {
         // Cash crop category multiplier: x1.10
-        return gradedValue * 1.10;
+        return gradedValue * 1.10; // Cash Crop multiplier is 1.10
     }
 }

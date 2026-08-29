@@ -12,6 +12,6 @@ public class CerealProduce extends Produce {
     @Override
     public double applyCategoryMultiplier(double gradedValue) {
         // Cereal multiplier from the payment rules: x1.00
-        return gradedValue * 1.00;
+        return gradedValue * 1.00; //Cereal multiplier is 1.00
     }
 }
