@@ -60,3 +60,11 @@ I used a `switch` statement inside a `while` loop to handle the menu. The `runni
 
 ### 7. Correcting my Initial Mistake (Input Order)
 During development, I initially wrote the menu so it asked for the quality score first. However, I re-read the sample run in the assignment specification and realized it required Member ID -> Name -> Produce Code -> Mass -> Score -> Week. I fixed my `Main.java` to match the specification exactly so the user experience matches the PDF.
+
+### 8. Word Document Generation (Objective 6)
+To generate the season report, I used the Apache POI library.
+I created an `XWPFDocument`, added a main title, and then looped through the members.
+For each member, I used `setPageBreak(true)` to ensure they start on a new page.
+I used `createTable(1, 3)` to create a simple table with headers for Produce, Mass, and Net Payable.
+I used `createRow()` to add their deliveries to the table, and added a final row for their Member Total.
+Finally, I saved the file to the `output/season-report.docx` folder using `FileOutputStream`.
