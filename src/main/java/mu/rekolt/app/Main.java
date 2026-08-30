@@ -58,7 +58,7 @@ public class Main {
         // Headers with neat spaces
         System.out.printf("%-12s %-10s %-10s %-8s %-12s%n", "Member ID", "Name", "Produce", "Grade", "Net Payable");
         // Underline matching the header widths
-        System.out.println("------------+----------+----------+--------+------------");
+        System.out.println("------------|----------|----------|--------|------------");
 
         for (Delivery delivery : deliveries) {
             // The Delivery class now calculates its own net payable (Objective 5)
@@ -145,7 +145,7 @@ public class Main {
                     System.out.println("\n== Deliveries sorted by mass (Comparable) ==");
                     // NEW HEADER AND UNDERLINE
                     System.out.printf("%-12s %-10s %-10s%n", "Member ID", "Name", "Mass (kg)");
-                    System.out.println("------------+----------+----------");
+                    System.out.println("------------|----------|----------");
 
                     List<Delivery> sortedByMass = new ArrayList<>(deliveries);
                     Collections.sort(sortedByMass); // Uses compareTo in Delivery.java
@@ -157,7 +157,7 @@ public class Main {
                     System.out.println("\n== Deliveries sorted by member name, then mass (Comparator) ==");
                     // NEW HEADER AND UNDERLINE
                     System.out.printf("%-12s %-10s %-10s%n", "Member ID", "Name", "Mass (kg)");
-                    System.out.println("------------+----------+----------");
+                    System.out.println("------------|----------|----------");
 
                     List<Delivery> sortedByName = new ArrayList<>(deliveries);
                     sortedByName.sort(Comparator.comparing(Delivery::getMemberName).thenComparing(Delivery::getMass));
@@ -196,7 +196,7 @@ public class Main {
                     System.out.println("\n== Weekly Volume Grid (kg) ==");
                     // "%-6s" means left-aligned in 6 spaces for a String. "%-8.1f" means left-aligned in 8 spaces with 1 decimal.
                     System.out.printf("%-6s %-8s %-8s %-8s %-8s %-8s%n", "Week", "MZE", "BNS", "POT", "TEA", "Total");
-                    System.out.println("------+--------+--------+--------+--------+--------");
+                    System.out.println("------|--------|--------|--------|--------|--------");
 
                     for (int w = 1; w <= 20; w++) {
                         double rowTotal = 0;
